@@ -1,0 +1,41 @@
+# kind's node image ships only a subset of CNI binaries in /opt/cni/bin and
+# omits `bridge`, which Flannel's default VXLAN backend delegates to. This
+# DaemonSet installs the reference containernetworking plugins on every node.
+# hostNetwork=true so it can run before pod networking is healthy; it only
+# downloads when `bridge` is missing, so it is a no-op on clusters that have it.
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: install-cni-plugins
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels: { app: install-cni-plugins }
+  template:
+    metadata:
+      labels: { app: install-cni-plugins }
+    spec:
+      hostNetwork: true
+      tolerations:
+        - operator: Exists
+      containers:
+        - name: install
+          image: alpine:3.20
+          command: ["sh", "-c"]
+          args:
+            - |
+              set -e
+              case "$(uname -m)" in
+                aarch64) a=arm64 ;; x86_64) a=amd64 ;; *) a="$(uname -m)" ;;
+              esac
+              if [ ! -x /opt/cni/bin/bridge ]; then
+                echo "installing CNI reference plugins ($a)..."
+                wget -qO- "https://github.com/containernetworking/plugins/releases/download/v1.5.1/cni-plugins-linux-$a-v1.5.1.tgz" \
+                  | tar -C /opt/cni/bin -xz
+              fi
+              echo "cni plugins present"; sleep infinity
+          volumeMounts:
+            - { name: cnibin, mountPath: /opt/cni/bin }
+      volumes:
+        - name: cnibin
+          hostPath: { path: /opt/cni/bin }

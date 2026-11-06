@@ -1,0 +1,49 @@
+# Benchmark workloads. All three pods use nicolaka/netshoot, which ships both
+# iperf3 (throughput) and fortio (HTTP latency/RPS).
+#
+#   bench-server  (node a): runs iperf3 -s + fortio server
+#   bench-client-a(node a): same-node client  (a -> a)
+#   bench-client-b(node b): cross-node client (b -> a)
+#
+# Clients just sleep; the orchestrator execs the load tools into them.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: bench-server
+  labels: { app: cni-bench, role: server }
+spec:
+  nodeSelector: { benchrole: a }
+  containers:
+    - name: tools
+      image: nicolaka/netshoot:latest
+      imagePullPolicy: IfNotPresent
+      command: ["sh", "-c", "iperf3 -s & exec fortio server -http-port 8080"]
+      ports:
+        - { containerPort: 5201 }   # iperf3
+        - { containerPort: 8080 }   # fortio http
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: bench-client-a
+  labels: { app: cni-bench, role: client, path: same-node }
+spec:
+  nodeSelector: { benchrole: a }
+  containers:
+    - name: tools
+      image: nicolaka/netshoot:latest
+      imagePullPolicy: IfNotPresent
+      command: ["sleep", "infinity"]
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: bench-client-b
+  labels: { app: cni-bench, role: client, path: cross-node }
+spec:
+  nodeSelector: { benchrole: b }
+  containers:
+    - name: tools
+      image: nicolaka/netshoot:latest
+      imagePullPolicy: IfNotPresent
+      command: ["sleep", "infinity"]
