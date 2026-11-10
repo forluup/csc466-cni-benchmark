@@ -22,12 +22,27 @@ CNI_AGENT = {
 }
 
 
-def sh(args, timeout=120):
-    """Run a command, return stdout; raise with context on failure."""
-    r = subprocess.run(args, capture_output=True, text=True, timeout=timeout)
-    if r.returncode != 0:
-        raise RuntimeError(f"cmd failed ({r.returncode}): {' '.join(args)}\n{r.stderr.strip()}")
-    return r.stdout
+# kind's apiserver (exposed on a localhost port) occasionally drops a connection
+# during a long run. These stderr markers mean "transient, retry the command".
+TRANSIENT = ("connection refused", "unexpected EOF", "TLS handshake",
+             "i/o timeout", "etcdserver: request timed out",
+             "the server was unable to return a response", "EOF")
+
+
+def sh(args, timeout=120, retries=4):
+    """Run a command, return stdout; retry transient kube-apiserver blips."""
+    for attempt in range(retries):
+        r = subprocess.run(args, capture_output=True, text=True, timeout=timeout)
+        if r.returncode == 0:
+            return r.stdout
+        err = r.stderr.strip()
+        if attempt < retries - 1 and any(m in err for m in TRANSIENT):
+            print(f"  transient error (retry {attempt + 1}/{retries - 1}): {err.splitlines()[-1]}",
+                  file=sys.stderr)
+            time.sleep(5 * (attempt + 1))
+            continue
+        raise RuntimeError(f"cmd failed ({r.returncode}): {' '.join(args)}\n{err}")
+    raise RuntimeError(f"cmd failed after {retries} attempts: {' '.join(args)}")
 
 
 def kexec(pod, cmd, timeout=120):

@@ -9,3 +9,255 @@ Creating cluster "cni-bench" ...
  • Writing configuration 📜  ...
  ✓ Writing configuration 📜
  • Starting control-plane 🕹️  ...
+ ✓ Starting control-plane 🕹️
+ • Installing StorageClass 💾  ...
+ ✓ Installing StorageClass 💾
+ • Joining worker nodes 🚜  ...
+ ✓ Joining worker nodes 🚜
+Set kubectl context to "kind-cni-bench"
+You can now use your cluster with:
+
+kubectl cluster-info --context kind-cni-bench
+
+Have a nice day! 👋
+node/cni-bench-worker labeled
+node/cni-bench-worker2 labeled
+labeled cni-bench-worker=a (server + same-node client), cni-bench-worker2=b (cross-node client)
+daemonset.apps/install-cni-plugins created
+Waiting for daemon set "install-cni-plugins" rollout to finish: 0 of 3 updated pods are available...
+Waiting for daemon set "install-cni-plugins" rollout to finish: 1 of 3 updated pods are available...
+Waiting for daemon set "install-cni-plugins" rollout to finish: 2 of 3 updated pods are available...
+daemon set "install-cni-plugins" successfully rolled out
+namespace/kube-flannel created
+serviceaccount/flannel created
+clusterrole.rbac.authorization.k8s.io/flannel created
+clusterrolebinding.rbac.authorization.k8s.io/flannel created
+configmap/kube-flannel-cfg created
+daemonset.apps/kube-flannel-ds created
+Waiting for daemon set "kube-flannel-ds" rollout to finish: 0 of 3 updated pods are available...
+Waiting for daemon set "kube-flannel-ds" rollout to finish: 1 of 3 updated pods are available...
+Waiting for daemon set "kube-flannel-ds" rollout to finish: 2 of 3 updated pods are available...
+daemon set "kube-flannel-ds" successfully rolled out
+waiting for all nodes Ready...
+node/cni-bench-control-plane condition met
+node/cni-bench-worker condition met
+node/cni-bench-worker2 condition met
+flannel v0.26.3 ready
+serviceaccount/metrics-server created
+clusterrole.rbac.authorization.k8s.io/system:aggregated-metrics-reader created
+clusterrole.rbac.authorization.k8s.io/system:metrics-server created
+rolebinding.rbac.authorization.k8s.io/metrics-server-auth-reader created
+clusterrolebinding.rbac.authorization.k8s.io/metrics-server:system:auth-delegator created
+clusterrolebinding.rbac.authorization.k8s.io/system:metrics-server created
+service/metrics-server created
+deployment.apps/metrics-server created
+apiservice.apiregistration.k8s.io/v1beta1.metrics.k8s.io created
+deployment.apps/metrics-server patched
+Waiting for deployment "metrics-server" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "metrics-server" rollout to finish: 1 old replicas are pending termination...
+deployment "metrics-server" successfully rolled out
+metrics-server ready
+waiting 20s for metrics-server to collect a first sample...
+server pod IP 10.244.2.5; nodes {'a': 'cni-bench-worker', 'b': 'cni-bench-worker2'}
+[flannel] warmup
+[flannel] warmup
+[flannel] trial 1/10
+[flannel] trial 2/10
+[flannel] trial 3/10
+[flannel] trial 4/10
+[flannel] trial 5/10
+[flannel] trial 6/10
+[flannel] trial 7/10
+[flannel] trial 8/10
+[flannel] trial 9/10
+[flannel] trial 10/10
+wrote /Users/jesse/CSC466/final_project/results/raw/flannel/run-20261110T001439Z.jsonl
+============================================================
+ calico
+============================================================
+Creating cluster "cni-bench" ...
+ • Ensuring node image (kindest/node:v1.34.0) 🖼  ...
+ ✓ Ensuring node image (kindest/node:v1.34.0) 🖼
+ • Preparing nodes 📦 📦 📦   ...
+ ✓ Preparing nodes 📦 📦 📦 
+ • Writing configuration 📜  ...
+ ✓ Writing configuration 📜
+ • Starting control-plane 🕹️  ...
+ ✓ Starting control-plane 🕹️
+ • Installing StorageClass 💾  ...
+ ✓ Installing StorageClass 💾
+ • Joining worker nodes 🚜  ...
+ ✓ Joining worker nodes 🚜
+Set kubectl context to "kind-cni-bench"
+You can now use your cluster with:
+
+kubectl cluster-info --context kind-cni-bench
+
+Not sure what to do next? 😅  Check out https://kind.sigs.k8s.io/docs/user/quick-start/
+node/cni-bench-worker labeled
+node/cni-bench-worker2 labeled
+labeled cni-bench-worker=a (server + same-node client), cni-bench-worker2=b (cross-node client)
+namespace/tigera-operator created
+Warning: unrecognized format "int32"
+customresourcedefinition.apiextensions.k8s.io/bgpconfigurations.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/bgpfilters.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/bgppeers.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/blockaffinities.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/caliconodestatuses.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/clusterinformations.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/felixconfigurations.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/globalnetworkpolicies.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/globalnetworksets.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/hostendpoints.crd.projectcalico.org created
+Warning: unrecognized format "int64"
+customresourcedefinition.apiextensions.k8s.io/ipamblocks.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/ipamconfigs.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/ipamhandles.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/ippools.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/ipreservations.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/kubecontrollersconfigurations.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/networkpolicies.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/networksets.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/tiers.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/adminnetworkpolicies.policy.networking.k8s.io created
+customresourcedefinition.apiextensions.k8s.io/apiservers.operator.tigera.io created
+customresourcedefinition.apiextensions.k8s.io/imagesets.operator.tigera.io created
+customresourcedefinition.apiextensions.k8s.io/installations.operator.tigera.io created
+customresourcedefinition.apiextensions.k8s.io/tigerastatuses.operator.tigera.io created
+serviceaccount/tigera-operator created
+clusterrole.rbac.authorization.k8s.io/tigera-operator created
+clusterrolebinding.rbac.authorization.k8s.io/tigera-operator created
+deployment.apps/tigera-operator created
+Waiting for deployment "tigera-operator" rollout to finish: 0 of 1 updated replicas are available...
+deployment "tigera-operator" successfully rolled out
+installation.operator.tigera.io/default created
+apiserver.operator.tigera.io/default created
+waiting for calico-node daemonset...
+Waiting for daemon set "calico-node" rollout to finish: 0 of 3 updated pods are available...
+Waiting for daemon set "calico-node" rollout to finish: 1 of 3 updated pods are available...
+Waiting for daemon set "calico-node" rollout to finish: 2 of 3 updated pods are available...
+daemon set "calico-node" successfully rolled out
+waiting for all nodes Ready...
+node/cni-bench-control-plane condition met
+node/cni-bench-worker condition met
+node/cni-bench-worker2 condition met
+calico v3.29.1 (Iptables) ready
+serviceaccount/metrics-server created
+clusterrole.rbac.authorization.k8s.io/system:aggregated-metrics-reader created
+clusterrole.rbac.authorization.k8s.io/system:metrics-server created
+rolebinding.rbac.authorization.k8s.io/metrics-server-auth-reader created
+clusterrolebinding.rbac.authorization.k8s.io/metrics-server:system:auth-delegator created
+clusterrolebinding.rbac.authorization.k8s.io/system:metrics-server created
+service/metrics-server created
+deployment.apps/metrics-server created
+apiservice.apiregistration.k8s.io/v1beta1.metrics.k8s.io created
+deployment.apps/metrics-server patched
+Waiting for deployment "metrics-server" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "metrics-server" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "metrics-server" rollout to finish: 1 old replicas are pending termination...
+deployment "metrics-server" successfully rolled out
+metrics-server ready
+waiting 20s for metrics-server to collect a first sample...
+server pod IP 10.244.60.197; nodes {'a': 'cni-bench-worker', 'b': 'cni-bench-worker2'}
+[calico] warmup
+[calico] warmup
+[calico] trial 1/10
+[calico] trial 2/10
+[calico] trial 3/10
+[calico] trial 4/10
+[calico] trial 5/10
+[calico] trial 6/10
+[calico] trial 7/10
+[calico] trial 8/10
+[calico] trial 9/10
+[calico] trial 10/10
+wrote /Users/jesse/CSC466/final_project/results/raw/calico/run-20261110T002635Z.jsonl
+============================================================
+ cilium
+============================================================
+Creating cluster "cni-bench" ...
+ • Ensuring node image (kindest/node:v1.34.0) 🖼  ...
+ ✓ Ensuring node image (kindest/node:v1.34.0) 🖼
+ • Preparing nodes 📦 📦 📦   ...
+ ✓ Preparing nodes 📦 📦 📦 
+ • Writing configuration 📜  ...
+ ✓ Writing configuration 📜
+ • Starting control-plane 🕹️  ...
+ ✓ Starting control-plane 🕹️
+ • Installing StorageClass 💾  ...
+ ✓ Installing StorageClass 💾
+ • Joining worker nodes 🚜  ...
+ ✓ Joining worker nodes 🚜
+Set kubectl context to "kind-cni-bench"
+You can now use your cluster with:
+
+kubectl cluster-info --context kind-cni-bench
+
+Not sure what to do next? 😅  Check out https://kind.sigs.k8s.io/docs/user/quick-start/
+node/cni-bench-worker labeled
+node/cni-bench-worker2 labeled
+labeled cni-bench-worker=a (server + same-node client), cni-bench-worker2=b (cross-node client)
+serviceaccount/cilium created
+serviceaccount/cilium-envoy created
+serviceaccount/cilium-operator created
+secret/cilium-ca created
+secret/hubble-server-certs created
+configmap/cilium-config created
+configmap/cilium-envoy-config created
+clusterrole.rbac.authorization.k8s.io/cilium created
+clusterrole.rbac.authorization.k8s.io/cilium-operator created
+clusterrolebinding.rbac.authorization.k8s.io/cilium created
+clusterrolebinding.rbac.authorization.k8s.io/cilium-operator created
+role.rbac.authorization.k8s.io/cilium-config-agent created
+rolebinding.rbac.authorization.k8s.io/cilium-config-agent created
+Warning: spec.SessionAffinity is ignored for headless services
+service/cilium-envoy created
+service/hubble-peer created
+daemonset.apps/cilium created
+daemonset.apps/cilium-envoy created
+deployment.apps/cilium-operator created
+Waiting for daemon set "cilium" rollout to finish: 0 of 3 updated pods are available...
+Waiting for daemon set "cilium" rollout to finish: 1 of 3 updated pods are available...
+Waiting for daemon set "cilium" rollout to finish: 2 of 3 updated pods are available...
+daemon set "cilium" successfully rolled out
+waiting for all nodes Ready...
+node/cni-bench-control-plane condition met
+node/cni-bench-worker condition met
+node/cni-bench-worker2 condition met
+cilium 1.16.5 ready
+serviceaccount/metrics-server created
+clusterrole.rbac.authorization.k8s.io/system:aggregated-metrics-reader created
+clusterrole.rbac.authorization.k8s.io/system:metrics-server created
+rolebinding.rbac.authorization.k8s.io/metrics-server-auth-reader created
+clusterrolebinding.rbac.authorization.k8s.io/metrics-server:system:auth-delegator created
+clusterrolebinding.rbac.authorization.k8s.io/system:metrics-server created
+service/metrics-server created
+deployment.apps/metrics-server created
+apiservice.apiregistration.k8s.io/v1beta1.metrics.k8s.io created
+deployment.apps/metrics-server patched
+Waiting for deployment spec update to be observed...
+Waiting for deployment "metrics-server" rollout to finish: 0 out of 1 new replicas have been updated...
+Waiting for deployment "metrics-server" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "metrics-server" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "metrics-server" rollout to finish: 1 old replicas are pending termination...
+deployment "metrics-server" successfully rolled out
+metrics-server ready
+waiting 20s for metrics-server to collect a first sample...
+server pod IP 10.244.1.54; nodes {'a': 'cni-bench-worker', 'b': 'cni-bench-worker2'}
+[cilium] warmup
+[cilium] warmup
+[cilium] trial 1/10
+[cilium] trial 2/10
+[cilium] trial 3/10
+[cilium] trial 4/10
+[cilium] trial 5/10
+[cilium] trial 6/10
+[cilium] trial 7/10
+[cilium] trial 8/10
+[cilium] trial 9/10
+[cilium] trial 10/10
+wrote /Users/jesse/CSC466/final_project/results/raw/cilium/run-20261110T003808Z.jsonl
+wrote /Users/jesse/CSC466/final_project/results/summary/summary.csv (45 rows)
+wrote /Users/jesse/CSC466/final_project/results/summary/comparison.png
+done. see results/summary/
+all plugins succeeded

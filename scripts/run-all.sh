@@ -23,19 +23,33 @@ install_cni() {
   esac
 }
 
+# Run one plugin end-to-end. Returns non-zero on failure without aborting the
+# matrix, so a single plugin's problem doesn't lose the others' data.
+run_plugin() {
+  local plugin="$1"
+  kind delete cluster --name "$CLUSTER" >/dev/null 2>&1 || true
+  # &&-chained so a failing step short-circuits and returns its exit code
+  # (set -e is suppressed inside a function tested by `if`).
+  "$HERE/scripts/setup-cluster.sh" \
+    && install_cni "$plugin" \
+    && "$HERE/cni/metrics-server.sh" \
+    && { echo "waiting 20s for metrics-server to collect a first sample..."; sleep 20; } \
+    && "$PY" "$HERE/bench/run.py" --plugin "$plugin" --runs "$RUNS" --warmup "$WARMUP"
+}
+
+failed=""
 for plugin in $PLUGINS; do
   echo "============================================================"
   echo " $plugin"
   echo "============================================================"
-  kind delete cluster --name "$CLUSTER" >/dev/null 2>&1 || true
-  "$HERE/scripts/setup-cluster.sh"
-  install_cni "$plugin"
-  "$HERE/cni/metrics-server.sh"
-  echo "waiting 20s for metrics-server to collect a first sample..."
-  sleep 20
-  "$PY" "$HERE/bench/run.py" --plugin "$plugin" --runs "$RUNS" --warmup "$WARMUP"
+  if ! run_plugin "$plugin"; then
+    echo "!! $plugin FAILED — continuing with remaining plugins" >&2
+    failed="$failed $plugin"
+  fi
   kind delete cluster --name "$CLUSTER" >/dev/null 2>&1 || true
 done
 
 "$PY" "$HERE/bench/analyze.py"
 echo "done. see results/summary/"
+[ -n "$failed" ] && { echo "FAILED plugins:$failed" >&2; exit 1; }
+echo "all plugins succeeded"
