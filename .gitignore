@@ -7,8 +7,5 @@ venv/
 # rendered/generated manifests
 cni/.cilium-rendered.yaml
 
-# raw benchmark output (keep summaries under results/summary/)
-results/raw/
-
 # macOS
 .DS_Store
