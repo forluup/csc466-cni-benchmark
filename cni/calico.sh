@@ -36,4 +36,14 @@ for _ in $(seq 1 30); do
 done
 kubectl -n calico-system rollout status ds/calico-node --timeout=300s
 wait_nodes_ready
+
+# WIREGUARD=1 enables Calico's WireGuard encryption for pod-to-pod traffic.
+if [ "${WIREGUARD:-0}" = "1" ]; then
+  echo "calico: enabling WireGuard encryption"
+  kubectl patch felixconfiguration default --type=merge \
+    -p '{"spec":{"wireguardEnabled":true}}'
+  # give Felix a moment to bring up the wireguard.cali interfaces on each node
+  sleep 20
+fi
+
 echo "calico $VERSION ($DATAPLANE) ready"

@@ -9,11 +9,19 @@ source "$HERE/common.sh"
 VERSION="${CILIUM_VERSION:-1.16.5}"
 RENDERED="$HERE/.cilium-rendered.yaml"
 
+# WIREGUARD=1 turns on transparent WireGuard encryption of pod-to-pod traffic.
+WG_SET=""
+if [ "${WIREGUARD:-0}" = "1" ]; then
+  WG_SET="--set encryption.enabled=true --set encryption.type=wireguard"
+  echo "cilium: WireGuard encryption ENABLED"
+fi
+
 docker run --rm --entrypoint sh alpine/helm -c "
   helm repo add cilium https://helm.cilium.io >/dev/null 2>&1
   helm template cilium cilium/cilium --version ${VERSION} --namespace kube-system \
     --set ipam.mode=kubernetes \
-    --set image.pullPolicy=IfNotPresent
+    --set image.pullPolicy=IfNotPresent \
+    ${WG_SET}
 " > "$RENDERED"
 
 kubectl apply -f "$RENDERED"

@@ -1,0 +1,18 @@
+# Cross-node client with NET_ADMIN so it can apply `tc netem` to its own eth0,
+# emulating packet loss / delay on the path to the benchmark server (node a).
+# netshoot ships both tc (iproute2) and iperf3.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: bench-netem-client
+  labels: { app: cni-bench, role: client, path: netem }
+spec:
+  nodeSelector: { benchrole: b }
+  containers:
+    - name: tools
+      image: nicolaka/netshoot:latest
+      imagePullPolicy: IfNotPresent
+      command: ["sleep", "infinity"]
+      securityContext:
+        capabilities:
+          add: ["NET_ADMIN"]

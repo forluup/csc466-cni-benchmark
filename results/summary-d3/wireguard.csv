@@ -1,0 +1,9 @@
+plugin,test,metric,unit,plain,wireguard,change_%
+cilium,iperf-tcp/same-node,throughput,Mbit/s,89114.02,91039.89,+2.2
+cilium,iperf-tcp/cross-node,throughput,Mbit/s,46201.91,18599.14,-59.7
+cilium,cpu/node-a,node_cpu,millicores,669.30,160.20,-76.1
+cilium,cpu/node-b,node_cpu,millicores,911.40,248.60,-72.7
+calico,iperf-tcp/same-node,throughput,Mbit/s,74430.81,72674.21,-2.4
+calico,iperf-tcp/cross-node,throughput,Mbit/s,51195.46,19427.43,-62.1
+calico,cpu/node-a,node_cpu,millicores,534.20,95.67,-82.1
+calico,cpu/node-b,node_cpu,millicores,941.40,316.00,-66.4

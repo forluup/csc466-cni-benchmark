@@ -51,8 +51,13 @@ def kexec(pod, cmd, timeout=120):
 
 def ensure_pods():
     sh(["kubectl", "apply", "-f", str(BENCH_YAML)])
-    for pod in ("bench-server", "bench-client-a", "bench-client-b"):
-        sh(["kubectl", "wait", "--for=condition=Ready", f"pod/{pod}", "--timeout=180s"])
+    # Fresh kind nodes pull the ~200 MB netshoot image on first use, which can
+    # exceed two minutes. Wait for all three pods in one call with a generous
+    # kubectl timeout AND a larger subprocess cap, so sh() does not kill the
+    # wait before kubectl's own --timeout elapses.
+    sh(["kubectl", "wait", "--for=condition=Ready",
+        "pod/bench-server", "pod/bench-client-a", "pod/bench-client-b",
+        "--timeout=300s"], timeout=320)
     ip = sh(["kubectl", "get", "pod", "bench-server",
              "-o", "jsonpath={.status.podIP}"]).strip()
     if not ip:
